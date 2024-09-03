@@ -68,8 +68,11 @@ ___
     myPromise.then(function(result)=>{
         alert(result); 
         return;
-    }).then(x=>console.log(x)
-    ).then(y=>console.log)
+    })
+    .then(x=>console.log(x))
+    .then(()=>console.log())
+    .then(()=>console.log())
+    .then(()=>console.log())
 ```
 *Here the initial promise resolve in a second (assuming).*
 *The next `.then()` handler is then called which is resolved with value of `x`.*
@@ -102,7 +105,7 @@ ___
 
 #### *Error Handling!❓*
 ☑️*We all make mistakes, Also sometimes our script can have errors.Usually a program halts when an error occurs.*
-*The `try{}catch(){}` syntax allows us to catch errors so that the script instead of dying can do some thing more reasonable.*
+*The `try{}catch(){}` syntax allows us to catch errors so that the script instead of dying can do something more reasonable.*
 
 ```javascript
     async function myPromise(){
@@ -113,16 +116,18 @@ ___
         if(!data.ok){
             throw new Error(`Error happens: ${data.status}`)
         }
-        let userData = await data.json();
+        else{
+            let userData = await data.json();
 
-        //JSON: await data.json() for JSON objects/arrays.
-        //Text: await data.text() for plain text or HTML.
-        //Blob: await data.blob() for binary data like images or videos.
-        //FormData: await data.formData() for form data submissions.
-        //ArrayBuffer: await data.arrayBuffer() for raw binary data.
-        //Stream: await data.body.getReader() for processing data streams.
+            //JSON: await data.json() for JSON objects/arrays.
+            //Text: await data.text() for plain text or HTML.
+            //Blob: await data.blob() for binary data like images or videos.
+            //FormData: await data.formData() for form data submissions.
+            //ArrayBuffer: await data.arrayBuffer() for raw binary data.
+            //Stream: await data.body.getReader() for processing data streams.
 
-        return userData;
+            return userData;
+        }
         }
         catch(error){
             console.error(error.message)
@@ -141,7 +146,9 @@ ___
             if(!userData.ok){
                 throw new Error(`Opps error Ocuures : ${userData.status}`)
             }
-            let data = await userData.json();
+            else{
+                let data = await userData.json();
+            }
         ,1000)
     }
     // Script dies and catch won't work!!
@@ -165,8 +172,8 @@ ___
 #### *Trowing Custom Error❓*
 ☑️*We can throw our own error by using the throw syntax.*
 ```javascript
-    if(age>18){
-        throw new Error("Grow up Kiddo")
+    if(!fetchData.ok){
+        throw new Error(`Unable to fetch data from server: ${fetchData.status}`)
     }catch(error){
         console.log(error.message)
     }
@@ -201,8 +208,8 @@ ___
         finally(()=>console.log("Promise Execution Complete"))
     }
 ```
-***Note:*** *This `finally()` clause will run in all cases, after try if there is no errors, or if caught any error either.*
-*If there is a **return** in try block. finally will be executed just before the control returns to the outer code*
+***Note:*** *This `finally()` clause will run in all cases, after **try** if there is no errors, or if **caught** any error.*
+*either there is a **return** in try block. finally will be executed just before the control returns to the outer code*
 
 
 [_Hand Notes for Curious one_](https://www.codewithharry.com/)
